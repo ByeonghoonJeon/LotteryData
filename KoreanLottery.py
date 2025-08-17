@@ -10,19 +10,30 @@ df = pd.read_csv('lottoRes.csv')
 # Remove any leading or trailing whitespace from the column names
 df.columns = df.columns.str.strip()
 
+# Select the last 20 rows of the DataFrame
+last_20_rows = df.tail(50)
+
 # Define the columns that contain the lottery numbers
 number_columns = ['no1', 'no2', 'no3', 'no4', 'no5', 'no6', 'bonus']
 
 # Create a dictionary to store the counts for each number from 1 to 45
 number_counts = {i: 0 for i in range(1, 46)}
 
-# Loop through each number to count its occurrences in the specified columns
+
+#[When trying to get numbers from the recent 20 rows
 for number in range(1, 46):
-    number_counts[number] = (df[number_columns] == number).sum().sum()
+    number_counts[number] = (last_20_rows[number_columns] == number).sum().sum()
+
+# # [When trying to get all numbers from history] Loop through each number to count its occurrences in the specified columns
+# for number in range(1, 46):
+#     number_counts[number] = (df[number_columns] == number).sum().sum()
 
 # Convert the dictionary of counts into a pandas DataFrame for easier handling
 counts_df = pd.DataFrame(list(number_counts.items()), columns=['Number', 'Count'])
+counts_df.to_csv('number_counts.csv', index=False)
 
+# # Sort the DataFrame by 'Count' in descending order
+# counts_df = counts_df.sort_values(by='Count', ascending=False)
 
 # Print the resulting DataFrame to the console
 print("Counts of each number from 1 to 45:")
