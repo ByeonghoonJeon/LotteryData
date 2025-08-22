@@ -20,20 +20,20 @@ number_columns = ['bonus']
 number_counts = {i: 0 for i in range(1, 26)}
 
 
-#[When trying to get numbers from the recent 20 rows
-for number in range(1, 27):
-    number_counts[number] = (last_20_rows[number_columns] == number).sum().sum()
-
-# # [When trying to get all numbers from history] Loop through each number to count its occurrences in the specified columns
+# #[When trying to get numbers from the recent 20 rows
 # for number in range(1, 27):
-#     number_counts[number] = (df[number_columns] == number).sum().sum()
+#     number_counts[number] = (last_20_rows[number_columns] == number).sum().sum()
 
-# Convert the dictionary of counts into a pandas DataFrame for easier handling
+# [When trying to get all numbers from history] Loop through each number to count its occurrences in the specified columns
+for number in range(1, 27):
+    number_counts[number] = (df[number_columns] == number).sum().sum()
+
+# # Convert the dictionary of counts into a pandas DataFrame for easier handling
 counts_df = pd.DataFrame(list(number_counts.items()), columns=['Number', 'Count'])
-counts_df.to_csv('[PB_bonus_recent100]number_count.csv', index=False)
+counts_df.to_csv('[PB_bonus]number_count.csv', index=False)
 
 # # Sort the DataFrame by 'Count' in descending order
-# counts_df = counts_df.sort_values(by='Count', ascending=False)
+counts_df = counts_df.sort_values(by='Count', ascending=False)
 
 # Print the resulting DataFrame to the console
 print(counts_df)
